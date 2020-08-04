@@ -38,6 +38,7 @@ type Product {
     description: String!,
     category: String!,
     images: [String],
+    value: String,
 }
 
 input ProductInput {
@@ -45,6 +46,7 @@ input ProductInput {
     description: String,
     category: String,
     images: [String],
+    value: String,
 }
 
 #Tudo que estiver dentro do array tem que ser do tipo usuário: !
@@ -89,6 +91,7 @@ type Mutation {
         description: String!,
         category: String!,
         images: [String],
+        value: String,
     ): Product
     deleteProductById(id: ID!): Product
     updateProduct(id: ID!, productInput: ProductInput): Product!

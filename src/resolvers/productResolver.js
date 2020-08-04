@@ -1,4 +1,5 @@
 const Product = require('../models/Product')
+const User = require('../models/User');
 const checkAuth = require('../utils/check-auth')
 
 module.exports = {
@@ -15,13 +16,11 @@ module.exports = {
             description,
             category,
             images,
+            value,
         }, context) => {
+
             const user = checkAuth(context);
-            console.log(user)
-
             user_id = user.id;
-
-            console.log(user_id)
 
             const newProduct = new Product({
                 user_id,
@@ -29,9 +28,13 @@ module.exports = {
                 description,
                 category,
                 images,
+                value,
             })
 
             const product = await newProduct.save();
+
+            // Adding product to user portfolio:
+            const test = await User.findByIdAndUpdate(user_id, { $push: { products: product.id } })
 
             return product;
 
