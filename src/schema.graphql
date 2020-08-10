@@ -51,6 +51,8 @@ input ProductInput {
 
 #Tudo que estiver dentro do array tem que ser do tipo usuário: !
 #Fora tem que retornar array
+
+
 type Query {
     # User Queries
     users: [User!]!
@@ -60,7 +62,9 @@ type Query {
     products: [Product!]!
     product(id: ID!): Product
 
-}
+    # Profile Query
+    profile(id: ID!): [Product!]!
+}   
 
 type Mutation {
     # User Mutations

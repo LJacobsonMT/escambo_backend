@@ -34,12 +34,24 @@ module.exports = {
             const product = await newProduct.save();
 
             // Adding product to user portfolio:
-            const test = await User.findByIdAndUpdate(user_id, { $push: { products: product.id } })
+            const addProductOperation = await User.findByIdAndUpdate(user_id, { $push: { products: product.id } })
 
             return product;
 
         },
-        deleteProductById: (_, { id }) => Product.findByIdAndRemove(id),
+
+        deleteProductById: async (_, { id }, context) => {
+            try {
+                const user = checkAuth(context);
+                const deletedProduct = await Product.findByIdAndRemove(id)
+                await User.findByIdAndUpdate(user.id, { $pull: { products: id } })
+                return deletedProduct;
+            } catch (err) {
+                console.log(err)
+                throw new Error('Error: ' + err.message)
+            }
+        },
+
         updateProduct: (_, { id, productInput }) => Product.findByIdAndUpdate(id, productInput, { new: true }),
     },
 }

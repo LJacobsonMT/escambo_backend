@@ -1,7 +1,8 @@
 const User = require('../models/User')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
-const { SECRET_KEY } = require("../../src/config")
+const { SECRET_KEY } = require("../../src/config");
+const checkAuth = require('../utils/check-auth');
 
 function generateToken(user) {
     return jwt.sign({
@@ -15,9 +16,13 @@ module.exports = {
     Query: {
         //User Queries
         users: () => User.find(),
-        user: (_, { id }) => User.findById(id),
-
+        user: async (_, { id }, context) => {
+            checkAuth(context);
+            const user = await User.findById(id);
+            return user;
+        },
     },
+
     Mutation: {
         //User Mutation
         createUser: async (_, {
@@ -88,6 +93,7 @@ module.exports = {
             const inputPassword = loginInput.password
             const user = await User.findOne({ email: inputEmail })
             const match = await bcrypt.compare(inputPassword, user.password)
+
             if (!match) {
                 throw new Error('Wrong credential')
             }
