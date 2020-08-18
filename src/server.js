@@ -1,3 +1,3 @@
-const { app, connection } = require('./app')
+const { app, connection } = require("./app");
 
 app.start();

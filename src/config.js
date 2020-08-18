@@ -1,3 +1,3 @@
 module.exports = {
-    SECRET_KEY: 'key123'
+	SECRET_KEY: "key123",
 };
