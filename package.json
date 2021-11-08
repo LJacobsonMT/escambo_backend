@@ -10,7 +10,7 @@
   "dependencies": {
     "@apollo/react-hooks": "^3.1.5",
     "apollo-boost": "^0.4.9",
-    "apollo-server": "^2.16.1",
+    "apollo-server": "^2.25.3",
     "apollo-server-core": "^2.16.1",
     "bcryptjs": "^2.4.3",
     "cross-env": "^7.0.2",
